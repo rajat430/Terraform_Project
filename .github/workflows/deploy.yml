@@ -1,11 +1,9 @@
 name: deploy
 on:
-    pull_request:
-        types: [ created,opened,reopened,synchronize]
+    push:
         branches: [ "dev","test","acc","main" ]
 jobs:
     parameter_preparation:
-        if: github.event.pull_request.merged == true
         runs-on: ubuntu-latest
         steps:
             - name: parameter_preparation
