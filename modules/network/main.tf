@@ -4,7 +4,7 @@
 # }
 
 resource "azurerm_network_security_group" "example" {
-    for_each = var.subnet_config
+  for_each            = var.subnet_config
   name                = "nsg-${each.value.name}"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "example" {
 }
 
 resource "azurerm_subnet" "example" {
-    for_each = var.subnet_config
+  for_each             = var.subnet_config
   name                 = each.value.name
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.example.name
@@ -36,7 +36,7 @@ resource "azurerm_subnet" "example" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "example" {
-    for_each = var.subnet_config
+  for_each                  = var.subnet_config
   subnet_id                 = azurerm_subnet.example[each.key].id
   network_security_group_id = azurerm_network_security_group.example[each.key].id
 }
