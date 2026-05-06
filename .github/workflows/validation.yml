@@ -1,6 +1,7 @@
-name: deploy
+name: validation
 on:
-    push:
+    pull_request:
+        types: [ created,opened,reopened,synchronize]
         branches: [ "dev","test","acc","main" ]
 jobs:
     parameter_preparation:
@@ -35,6 +36,7 @@ jobs:
                     echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_ENV
                     echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_ENV
     validation:
+        needs: [parameter_preparation]
         runs-on: ubuntu-latest
         steps:
             - name: checkout
