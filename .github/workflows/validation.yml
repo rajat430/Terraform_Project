@@ -55,12 +55,13 @@ jobs:
                 ARM_TENANT_ID: $TENANT_ID
                 ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
               run:
+                cd "$env_path"
                 terraform init
             - name: terrform_validate
               run: |
-                echo $env_path
+                echo "$env_path"
                 terraform --version
                 terraform validate
-                terraform fmt -recursive .
+                terraform fmt -check -recursive
 
                 
