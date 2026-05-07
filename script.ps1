@@ -1,6 +1,6 @@
 # Variables
 $location = "westus"
-$resourceGroup = "1-d6aa8104-playground-sandbox"
+$resourceGroup = "1-0952f854-playground-sandbox"
 $environments = @("dev", "test", "acc", "prod")
 
 # Login to Azure (if not already logged in)
