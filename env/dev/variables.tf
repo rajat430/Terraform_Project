@@ -7,6 +7,7 @@ variable "subnet_config" {
   type = map(object({
     name             = string
     address_prefixes = list(string)
+    nsg_name         = string
     delegation = object({
       name = string
       service_delegation = object({
