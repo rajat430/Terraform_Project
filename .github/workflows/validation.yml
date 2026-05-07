@@ -10,27 +10,27 @@ jobs:
             - name: parameter_preparation
               run: |
                 if [[ ${{github.base_ref}} == 'dev' ]]; then
-                    echo "ENV_PATH=env/dev" >> $GITHUB_ENV
+                    echo "ENV_PATH=./env/dev" >> $GITHUB_ENV
                     echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_ENV
                     echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_ENV
                     echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_ENV
                     echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_ENV
 
                 elif [[ ${{github.base_ref}} == 'release/*'  ]]; then
-                    echo "ENV_PATH_TEST=env/test" >> $GITHUB_ENV
+                    echo "ENV_PATH_TEST=./env/test" >> $GITHUB_ENV
                     echo "CLIENT_ID_TEST=${{secrets.CLIENT_ID}}" >> $GITHUB_ENV
                     echo "CLIENT_SECRET_TEST=${{secrets.CLIENT_SECRET}}" >> $GITHUB_ENV
                     echo "SUBSCRIPTION_ID_TEST=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_ENV
                     echo "TENANT_ID_TEST=${{secrets.TENANT_ID}}" >> $GITHUB_ENV
 
-                    echo "ENV_PATH_ACC=env/acc" >> $GITHUB_ENV
+                    echo "ENV_PATH_ACC=./env/acc" >> $GITHUB_ENV
                     echo "CLIENT_ID_ACC=${{secrets.CLIENT_ID}}" >> $GITHUB_ENV
                     echo "CLIENT_SECRET_ACC=${{secrets.CLIENT_SECRET}}" >> $GITHUB_ENV
                     echo "SUBSCRIPTION_ID_ACC=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_ENV
                     echo "TENANT_ID_ACC=${{secrets.TENANT_ID}}" >> $GITHUB_ENV
 
                 elif [[ ${{github.base_ref}} == 'main'  ]]; then
-                    echo "ENV_PATH=env/prod" >> $GITHUB_ENV
+                    echo "ENV_PATH=./env/prod" >> $GITHUB_ENV
                     echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_ENV
                     echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_ENV
                     echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_ENV
@@ -58,6 +58,8 @@ jobs:
               run: |
                 terraform init
                 pwd
+                echo "$ENV_PATH"
+                ls -ltra
               working-directory: ${{env.ENV_PATH}}
             - name: terrform_validate
               run: |
