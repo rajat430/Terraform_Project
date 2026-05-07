@@ -58,7 +58,8 @@ jobs:
               run: |
                 terraform init
                 pwd
-                echo "$ENV_PATH"
+                echo $ENV_PATH
+                cd $ENV_PATH
                 ls -ltra
               working-directory: ${{env.ENV_PATH}}
             - name: terrform_validate
