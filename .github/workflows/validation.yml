@@ -57,6 +57,8 @@ jobs:
                 ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
               run:
                 terraform init
+                ls -ltra $ENV_PATH
+                pwd
               working-directory: ${{env.ENV_PATH}}
             - name: terrform_validate
               run: |
