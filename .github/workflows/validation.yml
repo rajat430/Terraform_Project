@@ -55,7 +55,7 @@ jobs:
                 ARM_CLIENT_SECRET: $CLIENT_SECRET
                 ARM_TENANT_ID: $TENANT_ID
                 ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
-              run:
+              run: |
                 terraform init
                 pwd
               working-directory: ${{env.ENV_PATH}}
@@ -94,7 +94,7 @@ jobs:
                 ARM_CLIENT_SECRET: $CLIENT_SECRET_TEST
                 ARM_TENANT_ID: $TENANT_ID_TEST
                 ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID_TEST
-              run:
+              run: |
                 terraform init
               working-directory: ${{env.ENV_PATH_TEST}}
             - name: terrform_validate
@@ -131,7 +131,7 @@ jobs:
                 ARM_CLIENT_SECRET: $CLIENT_SECRET_ACC
                 ARM_TENANT_ID: $TENANT_ID_ACC
                 ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID_ACC
-              run:
+              run: |
                 terraform init
               working-directory: ${{env.ENV_PATH_ACC}}
             - name: terrform_validate
