@@ -8,10 +8,10 @@ jobs:
         runs-on: ubuntu-latest
         outputs:
           ENV_PATH: ${{steps.param.outputs.ENV_PATH}}
-          CLIENT_ID: ${{steps.param.outputs.CLIENT_ID}}
-          CLIENT_SECRET: ${{steps.param.outputs.CLIENT_SECRET}}
-          SUBSCRIPTION_ID: ${{steps.param.outputs.SUBSCRIPTION_ID}}
-          TENANT_ID: ${{steps.param.outputs.TENANT_ID}}
+          # CLIENT_ID: ${{steps.param.outputs.CLIENT_ID}}
+          # CLIENT_SECRET: ${{steps.param.outputs.CLIENT_SECRET}}
+          # SUBSCRIPTION_ID: ${{steps.param.outputs.SUBSCRIPTION_ID}}
+          # TENANT_ID: ${{steps.param.outputs.TENANT_ID}}
          
         steps:
             - name: parameter_preparation
@@ -19,24 +19,24 @@ jobs:
               run: |
                 if [[ ${{github.base_ref}} == 'dev' ]]; then
                     echo "ENV_PATH=./env/dev" >> $GITHUB_OUTPUT
-                    echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
-                    echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
-                    echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
-                    echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
+                    # echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
+                    # echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
 
-                elif [[ ${{github.base_ref}} == 'release/*'  ]]; then
+                elif [[ "${{ github.base_ref }}" == release/* ]]; then
                     echo "ENV_PATH=./env/test" >> $GITHUB_OUTPUT
-                    echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
-                    echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
-                    echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
-                    echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
+                    # echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
+                    # echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
 
                 elif [[ ${{github.base_ref}} == 'main'  ]]; then
                     echo "ENV_PATH=./env/prod" >> $GITHUB_OUTPUT
-                    echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
-                    echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
-                    echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
-                    echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_ID=${{secrets.CLIENT_ID}}" >> $GITHUB_OUTPUT
+                    # echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> $GITHUB_OUTPUT
+                    # echo "SUBSCRIPTION_ID=${{secrets.SUBSCRIPTION_ID}}" >> $GITHUB_OUTPUT
+                    # echo "TENANT_ID=${{secrets.TENANT_ID}}" >> $GITHUB_OUTPUT
                 fi
     validation:
         needs: [parameter_preparation]
@@ -52,10 +52,10 @@ jobs:
                 terraform_version: 'latest'
             - name: terraform init
               env:
-                ARM_CLIENT_ID: ${{needs.parameter_preparation.outputs.CLIENT_ID }}
-                ARM_CLIENT_SECRET: ${{needs.parameter_preparation.outputs.CLIENT_SECRET }}
-                ARM_TENANT_ID: ${{needs.parameter_preparation.outputs.TENANT_ID }}
-                ARM_SUBSCRIPTION_ID: ${{needs.parameter_preparation.outputs.SUBSCRIPTION_ID }}
+                ARM_CLIENT_ID: ${{secrets.CLIENT_ID}}
+                ARM_CLIENT_SECRET: ${{secrets.CLIENT_SECRET }}
+                ARM_TENANT_ID: ${{secrets.TENANT_ID }}
+                ARM_SUBSCRIPTION_ID: ${{secrets.SUBSCRIPTION_ID }}
               run: |
                 pwd
                 ls -ltra
@@ -69,10 +69,10 @@ jobs:
               working-directory: ${{needs.parameter_preparation.outputs.ENV_PATH }}
             - name: Terraform Plan
               env:
-                ARM_CLIENT_ID: $CLIENT_ID
-                ARM_CLIENT_SECRET: $CLIENT_SECRET
-                ARM_TENANT_ID: $TENANT_ID
-                ARM_SUBSCRIPTION_ID: $SUBSCRIPTION_ID
+                ARM_CLIENT_ID: ${{secrets.CLIENT_ID}}
+                ARM_CLIENT_SECRET: ${{secrets.CLIENT_SECRET }}
+                ARM_TENANT_ID: ${{secrets.TENANT_ID }}
+                ARM_SUBSCRIPTION_ID: ${{secrets.SUBSCRIPTION_ID }}
               run: |
                 terraform plan
               working-directory: ${{needs.parameter_preparation.outputs.ENV_PATH }}
