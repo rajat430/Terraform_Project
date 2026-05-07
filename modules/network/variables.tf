@@ -39,7 +39,7 @@ variable "subnet_config" {
     subnet1 = {
       name             = "subnet-01"
       address_prefixes = ["10.0.1.0/24"]
-      nsg_name   = "nsg001"
+      nsg_name         = "nsg001"
       delegation = {
         name = "delegation"
         service_delegation = {
