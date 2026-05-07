@@ -57,9 +57,9 @@ jobs:
                 ARM_TENANT_ID: ${{needs.parameter_preparation.outputs.TENANT_ID }}
                 ARM_SUBSCRIPTION_ID: ${{needs.parameter_preparation.outputs.SUBSCRIPTION_ID }}
               run: |
-                terraform init
                 pwd
                 ls -ltra
+                terraform init
               working-directory: ${{needs.parameter_preparation.outputs.ENV_PATH }}
             - name: terrform_validate
               run: |
