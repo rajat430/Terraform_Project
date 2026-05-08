@@ -5,13 +5,13 @@
 
 resource "azurerm_network_security_group" "example" {
   for_each            = var.subnet_config
-  name                = each.value.nsg_name
+  name                = "nsg-${var.prefix}-${var.postfix}-${var.env}-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = var.virtual_network_name
+  name                = "vnet-${var.prefix}-${var.postfix}-${var.env}"
   location            = var.location
   resource_group_name = var.resource_group_name
   address_space       = var.address_space
@@ -20,7 +20,7 @@ resource "azurerm_virtual_network" "example" {
 
 resource "azurerm_subnet" "example" {
   for_each             = var.subnet_config
-  name                 = each.value.name
+  name                 = "snet-${var.prefix}-${var.postfix}-${var.env}-${each.key}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = each.value.address_prefixes

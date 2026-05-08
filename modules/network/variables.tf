@@ -23,8 +23,6 @@ variable "dns_servers" {
 
 variable "subnet_config" {
   type = map(object({
-    name             = string
-    nsg_name         = string
     address_prefixes = list(string)
     delegation = object({
       name = string
@@ -36,10 +34,8 @@ variable "subnet_config" {
   }))
 
   default = {
-    subnet1 = {
-      name             = "subnet-01"
+    0 = {
       address_prefixes = ["10.0.1.0/24"]
-      nsg_name         = "nsg001"
       delegation = {
         name = "delegation"
         service_delegation = {
@@ -52,4 +48,14 @@ variable "subnet_config" {
       }
     }
   }
+}
+
+variable "prefix" {
+  type = string
+}
+variable "postfix" {
+  type = string
+}
+variable "env" {
+  type = string
 }
